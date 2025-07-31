@@ -1,14 +1,8 @@
 import "./App.css";
-import Button from "./components/ui/button";
+import ArtistsPage from "./pages/Artists";
 
 function App() {
-  return (
-    <>
-      <Button variant="outline" title="abc">
-        <span>Button Content</span>
-      </Button>
-    </>
-  );
+  return <ArtistsPage />;
 }
 
 export default App;
