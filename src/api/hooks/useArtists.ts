@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import api from "..";
 
 export function useArtists(query: string, page: number = 1) {
+  console.log("useArtists called with query:", query, "and page:", page);
+
   return useQuery({
     queryKey: ["artists", query, page],
     queryFn: async () => {

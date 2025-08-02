@@ -1,45 +1,52 @@
 import { useArtists } from "@/api/hooks/useArtists";
 import { ArtistList } from "@/components/fragments/ArtistList";
-import { FilterBar } from "@/components/fragments/FilterBar";
+import Header from "@/components/fragments/Header";
 import Button from "@/components/ui/Button";
+import Layout from "@/components/ui/Layout";
+import { useDebounce } from "@/utils/useDebounce";
 import { useState } from "react";
 
-export default function ArtistsPage() {
+const ArtistsPage = () => {
   console.log("ArtistsPage rendered");
   const [query, setQuery] = useState("");
+  const [artists, setArtists] = useState([]);
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useArtists(query, page);
+  const debouncedQuery = useDebounce(query, 500);
+  const { data, isLoading } = useArtists(debouncedQuery, page);
+  console.log("isLoading:", isLoading);
+
+  if (!artists || artists.length === 0) {
+    return (
+      <Layout>
+        <Header />
+        <h2 className="text-lg font-semibold center pt-24 text-center">
+          Nenhum artista encontrado
+        </h2>
+      </Layout>
+    );
+  }
 
   return (
-    <div className="p-8">
-      <FilterBar
-        value={query}
-        onChange={setQuery}
-        placeholder="Filtrar por nome do artista..."
-      />
-      {isLoading ? (
-        <div>Carregando...</div>
-      ) : (
-        <>
-          <ArtistList
-            artists={data?.items || []}
-            onSelect={(artist) => {
-              console.log(artist);
-            }}
-          />
-          <div className="flex justify-center gap-4 mt-8">
-            <Button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
-              Anterior
-            </Button>
-            <Button
-              disabled={!data?.next}
-              onClick={() => setPage((p) => p + 1)}
-            >
-              Próxima
-            </Button>
-          </div>
-        </>
-      )}
-    </div>
+    <>
+      <Layout>
+        <Header />
+        <ArtistList
+          artists={data?.items || []}
+          onSelect={(artist) => {
+            console.log(artist);
+          }}
+        />
+        <div className="flex justify-center gap-4 mt-8">
+          <Button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+            Anterior
+          </Button>
+          <Button disabled={!data?.next} onClick={() => setPage((p) => p + 1)}>
+            Próxima
+          </Button>
+        </div>
+      </Layout>
+    </>
   );
-}
+};
+
+export default ArtistsPage;
