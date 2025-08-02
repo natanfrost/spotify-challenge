@@ -7,10 +7,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.main
       key={location.pathname}
-      initial={{ x: "100%", opacity: 0 }}
+      initial={{
+        x: location.state?.fromSplash ? "100%" : "-100%",
+        opacity: 0,
+      }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: "-100%", opacity: 0 }}
-      transition={{ type: "tween", ease: "easeOut", duration: 0.75 }}
+      transition={{
+        type: "tween",
+        ease: [0.4, 0, 0.2, 1],
+        duration: 0.75,
+      }}
     >
       {children}
     </motion.main>

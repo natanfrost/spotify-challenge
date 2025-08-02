@@ -7,7 +7,7 @@ function App() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="popLayout">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/artists" element={<ArtistsPage />} />

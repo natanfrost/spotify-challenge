@@ -11,8 +11,8 @@ const SplashScreen = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       login();
-      navigate("/artists");
-    }, 3000);
+      navigate("/artists", { state: { fromSplash: true } });
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [login, navigate]);
@@ -23,8 +23,10 @@ const SplashScreen = () => {
       initial={{ opacity: 1 }}
       exit={{
         x: "-100%",
-        opacity: 0,
-        transition: { duration: 0.75, ease: "easeInOut" },
+        transition: {
+          duration: 0.75,
+          ease: [0.4, 0, 0.2, 1],
+        },
       }}
     >
       <motion.img
