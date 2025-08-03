@@ -2,14 +2,26 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import Typography from "@/components/ui/Typography";
 import { Music } from "lucide-react";
+import Skeleton from "./Skeleton";
 
 type ArtistListProps = {
   artists: any[];
+  showSkeleton?: boolean;
   onSelect: (artist: any) => void;
 };
 
-export function ArtistList({ artists, onSelect }: ArtistListProps) {
+export function ArtistList({
+  artists,
+  onSelect,
+  showSkeleton,
+}: ArtistListProps) {
   console.log("ArtistList rendered with artists:", artists);
+
+  if (showSkeleton) {
+    return (
+      <Skeleton className="h-[400px] bg-gradient-to-r from-gray-300 to-gray-200" />
+    );
+  }
 
   if (!artists || artists.length === 0) {
     return (
@@ -25,11 +37,7 @@ export function ArtistList({ artists, onSelect }: ArtistListProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 md:mx-5">
       {artists.map((artist) => (
-        <Card
-          key={artist.id}
-          backgroundImage={artist.images?.[0]?.url}
-          className="  "
-        >
+        <Card key={artist.id} backgroundImage={artist.images?.[0]?.url}>
           <CardContent>
             <Typography
               className="text-accent text-shadow-accent "

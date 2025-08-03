@@ -4,7 +4,7 @@ import Header from "@/components/fragments/Header";
 import Button from "@/components/ui/Button";
 import Layout from "@/components/ui/Layout";
 import { useDebounce } from "@/utils/useDebounce";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const ArtistsPage = () => {
   console.log("ArtistsPage rendered");
@@ -17,7 +17,6 @@ const ArtistsPage = () => {
   const { artists, isLoading } = useArtists(debouncedQuery, page);
 
   const handleSearchChange = (value: string) => {
-    console.log("Search input changed:", value);
     setQuery(value);
   };
 
@@ -26,6 +25,7 @@ const ArtistsPage = () => {
       <Header onSearchChange={handleSearchChange} />
       <Layout>
         <ArtistList
+          showSkeleton={isLoading}
           artists={artists || []}
           onSelect={(artist) => {
             console.log(artist);

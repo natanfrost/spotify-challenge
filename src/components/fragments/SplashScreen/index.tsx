@@ -2,20 +2,13 @@ import { motion } from "framer-motion";
 import logo from "@/assets/images/logo.png";
 import { useEffect } from "react";
 import { useSpotifyAuth } from "@/api/hooks/useAuth";
-import { useNavigate } from "react-router";
 
 const SplashScreen = () => {
   const { login } = useSpotifyAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      login();
-      navigate("/artists", { state: { fromSplash: true } });
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [login, navigate]);
+    login();
+  }, [login]);
 
   return (
     <motion.div

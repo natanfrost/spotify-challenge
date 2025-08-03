@@ -1,6 +1,8 @@
 import tokenWorkerService from "@/workers/tokenWokerService";
 import axios from "axios";
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const getTokenFromWorker = (): Promise<string | null> => {
   return new Promise((resolve) => {
     tokenWorkerService.onmessage = (event) => {
@@ -19,6 +21,8 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
+  await delay(3000);
+
   const token = await getTokenFromWorker();
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;

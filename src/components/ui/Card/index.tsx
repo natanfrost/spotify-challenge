@@ -1,20 +1,22 @@
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
-
+import { motion } from "framer-motion";
 interface CardProps extends React.ComponentProps<"div"> {
   backgroundImage?: string;
 }
 
-function Card({ className, backgroundImage, children, ...props }: CardProps) {
+function Card({ className, backgroundImage, children }: CardProps) {
   return (
-    <div
+    <motion.div
       data-slot="card"
+      initial={{ scale: 0.2, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{
+        delay: Math.random() * 0.4,
+      }}
       className={cn(
         "bg-card text-card-foreground flex flex-col gap-6 h-100 shadow-sm relative overflow-hidden p-4 hover:scale-105 transition cursor-pointer",
         className
       )}
-      {...props}
     >
       {backgroundImage && (
         <div
@@ -27,12 +29,10 @@ function Card({ className, backgroundImage, children, ...props }: CardProps) {
         />
       )}
 
-      <div className="absolute inset-0 bg-black/20 z-10" />
-
       <div className="relative z-20 py-6 h-full w-full flex flex-col items-center justify-center">
         {children}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
