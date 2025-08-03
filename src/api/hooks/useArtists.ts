@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import api from "..";
 
 export function useArtists(query: string, page: number = 1) {
-  console.log("useArtists called with query:", query, "and page:", page);
+  console.log("useArtists hook called with query:", query, "and page:", page);
 
-  return useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["artists", query, page],
     queryFn: async () => {
       const { data } = await api.get("/search", {
@@ -19,4 +19,5 @@ export function useArtists(query: string, page: number = 1) {
     },
     enabled: !!query,
   });
+  return { artists: data?.items, isLoading };
 }

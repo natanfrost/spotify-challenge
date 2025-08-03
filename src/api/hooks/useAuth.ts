@@ -40,7 +40,6 @@ export function useSpotifyAuth() {
     mutationFn: login,
     onError: () => console.log("error"),
     onSuccess: () => {
-      console.log("success");
       navigate("/artists");
     },
   });

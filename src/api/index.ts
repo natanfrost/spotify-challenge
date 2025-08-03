@@ -22,6 +22,8 @@ api.interceptors.request.use(async (config) => {
   const token = await getTokenFromWorker();
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
+  } else {
+    console.warn("No token found, request will not be authenticated.");
   }
   return config;
 });
