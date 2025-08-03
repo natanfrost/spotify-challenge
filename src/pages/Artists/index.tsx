@@ -12,7 +12,7 @@ const ArtistsPage = () => {
   const debouncedQuery = useDebounce(query, 500);
   console.log("Debounced query:", debouncedQuery);
 
-  const { artists, isLoading } = useArtists(debouncedQuery, 0);
+  const { artists, isLoading } = useArtists(debouncedQuery, 1);
 
   const handleSearchChange = (value: string) => {
     setQuery(value);
