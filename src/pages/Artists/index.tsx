@@ -1,20 +1,18 @@
 import { useArtists } from "@/api/hooks/useArtists";
 import { ArtistList } from "@/components/fragments/ArtistList";
 import Header from "@/components/fragments/Header";
-import Button from "@/components/ui/Button";
 import Layout from "@/components/ui/Layout";
 import { useDebounce } from "@/utils/useDebounce";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const ArtistsPage = () => {
   console.log("ArtistsPage rendered");
   const [query, setQuery] = useState("");
   console.log("Current query:", query);
-  const [page, setPage] = useState(1);
   const debouncedQuery = useDebounce(query, 500);
-  console.log("Debounced query:", debouncedQuery, "Page:", page);
+  console.log("Debounced query:", debouncedQuery);
 
-  const { artists, isLoading } = useArtists(debouncedQuery, page);
+  const { artists, isLoading } = useArtists(debouncedQuery, 0);
 
   const handleSearchChange = (value: string) => {
     setQuery(value);
