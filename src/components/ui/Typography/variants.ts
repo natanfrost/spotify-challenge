@@ -4,7 +4,7 @@ export const typographyVariants = cva("", {
   variants: {
     variant: {
       h2: "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
-      p: "leading-7 [&:not(:first-child)]:mt-6",
+      p: "leading-7",
     },
   },
   defaultVariants: {

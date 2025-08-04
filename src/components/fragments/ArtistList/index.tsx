@@ -8,14 +8,10 @@ type ArtistListProps = {
   artists: any[];
   showSkeleton?: boolean;
   isLoadingMore?: boolean;
-  onSelect: (artist: any) => void;
-  onNextPage?: () => void;
-  onPreviousPage?: () => void;
 };
 
 export function ArtistList({
   artists,
-  onSelect,
   showSkeleton,
   isLoadingMore,
 }: ArtistListProps) {
@@ -40,7 +36,7 @@ export function ArtistList({
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 md:mx-5">
         {artists.map((artist) => (
-          <Artist key={artist.id} artist={artist} onSelect={onSelect} />
+          <Artist key={artist.id} artist={artist} />
         ))}
       </div>
       {isLoadingMore && (

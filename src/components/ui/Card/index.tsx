@@ -2,16 +2,19 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 interface CardProps extends React.ComponentProps<"div"> {
   backgroundImage?: string;
+  onClick?: () => void;
 }
 
-function Card({ className, backgroundImage, children }: CardProps) {
+function Card({ className, backgroundImage, children, onClick }: CardProps) {
   return (
     <motion.div
+      onClick={onClick}
       data-slot="card"
       initial={{ scale: 0.2, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{
         delay: Math.random() * 0.4,
+        type: "spring",
       }}
       className={cn(
         "text-card-foreground bg-gray-900 flex flex-col gap-6 h-100 shadow-sm relative overflow-hidden p-4 hover:scale-105 transition cursor-pointer",

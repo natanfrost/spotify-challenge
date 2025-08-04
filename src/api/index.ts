@@ -7,7 +7,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  await delay(3000);
+  await delay(1000);
 
   const token = localStorage.getItem("spotify_token");
   if (token) {

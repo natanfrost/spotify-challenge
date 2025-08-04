@@ -71,9 +71,6 @@ const ArtistsPage = () => {
           showSkeleton={isLoading && page === 1}
           isLoadingMore={isLoadingMore}
           artists={allArtists || []}
-          onSelect={(artist) => {
-            console.log(artist);
-          }}
         />
       </Layout>
     </>
