@@ -5,7 +5,7 @@ import Header from "@/components/fragments/Header";
 import Layout from "@/components/ui/Layout";
 import useArtistsParams from "@/utils/useArtistParams";
 import { useDebounce } from "@/utils/useDebounce";
-import useThrottle from "@/utils/useThrottle";
+import useInfiniteScroll from "@/utils/useInfiniteScroll";
 import { useCallback, useEffect, useState } from "react";
 import { createSearchParams, useSearchParams } from "react-router";
 
@@ -18,7 +18,6 @@ const ArtistsPage = () => {
   const [search, setSearch] = useSearchParams();
   const { query, page } = useArtistsParams(search);
   const debounce = useDebounce();
-  const throttle = useThrottle();
 
   const { artists, isLoading } = useArtists(query, page);
 
@@ -51,16 +50,7 @@ const ArtistsPage = () => {
     handlePageChange(page + 1);
   }, [handlePageChange, page]);
 
-  const checkScroll = useCallback(() => {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 50;
-
-    if (isAtBottom && !isLoading && !isLoadingMore) {
-      handleNextPage();
-    }
-  }, [handleNextPage, isLoading, isLoadingMore]);
-
-  const throttledCheckScroll = throttle(checkScroll, 400);
+  useInfiniteScroll(handleNextPage, isLoadingMore);
 
   useEffect(() => {
     if (page === 1) {
@@ -72,18 +62,6 @@ const ArtistsPage = () => {
       setIsLoadingMore(false);
     }
   }, [artists, page]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", throttledCheckScroll);
-    window.addEventListener("resize", throttledCheckScroll);
-
-    throttledCheckScroll();
-
-    return () => {
-      window.removeEventListener("scroll", throttledCheckScroll);
-      window.removeEventListener("resize", throttledCheckScroll);
-    };
-  }, [throttledCheckScroll]);
 
   return (
     <>
