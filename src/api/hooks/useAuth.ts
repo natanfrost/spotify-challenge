@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import tokenWorkerService from "@/workers/tokenWokerService";
 import { useCallback } from "react";
 import { useNavigate } from "react-router";
 
@@ -25,15 +24,12 @@ export function useSpotifyAuth() {
         },
       }
     );
+    localStorage.setItem("spotify_token", data.access_token);
     return data;
   }, []);
 
   const login = useCallback(async () => {
-    const { access_token } = await getToken();
-    tokenWorkerService.postMessage({
-      action: "setToken",
-      payload: access_token,
-    });
+    await getToken();
   }, [getToken]);
 
   const { mutate } = useMutation({

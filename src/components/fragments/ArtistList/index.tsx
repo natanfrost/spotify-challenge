@@ -1,22 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Card, CardContent, CardFooter } from "@/components/ui/Card";
 import Typography from "@/components/ui/Typography";
 import { Music } from "lucide-react";
 import Skeleton from "./Skeleton";
+import Artist from "./Artist";
 
 type ArtistListProps = {
   artists: any[];
   showSkeleton?: boolean;
+  isLoadingMore?: boolean;
   onSelect: (artist: any) => void;
+  onNextPage?: () => void;
+  onPreviousPage?: () => void;
 };
 
 export function ArtistList({
   artists,
   onSelect,
   showSkeleton,
+  isLoadingMore,
 }: ArtistListProps) {
-  console.log("ArtistList rendered with artists:", artists);
-
   if (showSkeleton) {
     return (
       <Skeleton className="h-[400px] bg-gradient-to-r from-gray-300 to-gray-200" />
@@ -35,24 +37,15 @@ export function ArtistList({
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 md:mx-5">
-      {artists.map((artist) => (
-        <Card key={artist.id} backgroundImage={artist.images?.[0]?.url}>
-          <CardContent>
-            <Typography
-              className="text-accent text-shadow-accent "
-              variant="h2"
-            >
-              {artist.name}
-            </Typography>
-          </CardContent>
-          <CardFooter onClick={() => onSelect(artist)}>
-            <Typography className="text-sm text-gray-300 hover:text-muted">
-              Ver mais detalhes
-            </Typography>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 md:mx-5">
+        {artists.map((artist) => (
+          <Artist key={artist.id} artist={artist} onSelect={onSelect} />
+        ))}
+      </div>
+      {isLoadingMore && (
+        <Skeleton className="mt-8 h-[400px] bg-gradient-to-r from-gray-300 to-gray-200" />
+      )}
+    </>
   );
 }

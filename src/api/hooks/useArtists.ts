@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "..";
 
-export function useArtists(query: string, page: number = 1) {
-  console.log("useArtists hook called with query:", query, "and page:", page);
+const DEFAULT_LIMIT = 8;
 
+export function useArtists(query: string, page: number = 1) {
   const { data, isLoading } = useQuery({
     queryKey: ["artists", query, page],
     queryFn: async () => {
@@ -11,13 +11,13 @@ export function useArtists(query: string, page: number = 1) {
         params: {
           q: query,
           type: "artist",
-          limit: 20,
-          offset: (page - 1) * 20,
+          limit: DEFAULT_LIMIT,
+          offset: (page - 1) * DEFAULT_LIMIT,
         },
       });
       return data.artists;
     },
     enabled: !!query,
   });
-  return { artists: data?.items, isLoading };
+  return { artists: data, isLoading };
 }

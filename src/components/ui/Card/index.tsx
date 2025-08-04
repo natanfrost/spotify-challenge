@@ -14,7 +14,7 @@ function Card({ className, backgroundImage, children }: CardProps) {
         delay: Math.random() * 0.4,
       }}
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 h-100 shadow-sm relative overflow-hidden p-4 hover:scale-105 transition cursor-pointer",
+        "text-card-foreground bg-gray-900 flex flex-col gap-6 h-100 shadow-sm relative overflow-hidden p-4 hover:scale-105 transition cursor-pointer",
         className
       )}
     >

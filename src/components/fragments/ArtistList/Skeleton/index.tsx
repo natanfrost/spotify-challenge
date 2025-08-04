@@ -5,7 +5,7 @@ const Skeleton = ({ className }: React.ComponentProps<"div">) => {
   const structure = () => {
     return (
       <>
-        {Array.from({ length: 16 }, (_, i) => (
+        {Array.from({ length: 8 }, (_, i) => (
           <motion.div
             key={i}
             data-slot="skeleton"

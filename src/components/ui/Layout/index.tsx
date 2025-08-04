@@ -6,7 +6,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <motion.main
-      className="pt-24 overflow-y h-full"
+      className="overflow-y h-full"
       key={location.pathname}
       initial={{
         x: location.state?.fromSplash ? "100%" : "-100%",

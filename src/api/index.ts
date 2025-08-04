@@ -1,20 +1,6 @@
-import tokenWorkerService from "@/workers/tokenWokerService";
 import axios from "axios";
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const getTokenFromWorker = (): Promise<string | null> => {
-  return new Promise((resolve) => {
-    tokenWorkerService.onmessage = (event) => {
-      if (event.data.action === "token") {
-        resolve(event.data.token);
-      } else {
-        resolve(null);
-      }
-    };
-    tokenWorkerService.postMessage({ action: "getToken" });
-  });
-};
 
 const api = axios.create({
   baseURL: "https://api.spotify.com/v1",
@@ -23,7 +9,7 @@ const api = axios.create({
 api.interceptors.request.use(async (config) => {
   await delay(3000);
 
-  const token = await getTokenFromWorker();
+  const token = localStorage.getItem("spotify_token");
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   } else {
