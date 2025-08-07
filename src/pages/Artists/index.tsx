@@ -6,7 +6,7 @@ import Layout from "@/components/ui/Layout";
 import useArtistsParams from "@/utils/useArtistParams";
 import { useDebounce } from "@/utils/useDebounce";
 import useInfiniteScroll from "@/utils/useInfiniteScroll";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createSearchParams, useSearchParams } from "react-router";
 
 const DEFAULT_PAGE = "1";
@@ -14,14 +14,15 @@ const DEFAULT_PAGE = "1";
 const ArtistsPage = () => {
   const [allArtists, setAllArtists] = useState<any[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-
+  const isZeroOffset = useRef(true);
   const [search, setSearch] = useSearchParams();
   const { query, page } = useArtistsParams(search);
   const debounce = useDebounce();
 
-  const { artists, isLoading } = useArtists(query, page);
+  const { artists, isLoading } = useArtists(query, page, isZeroOffset.current);
 
   const handleSearchChange = (value: string) => {
+    isZeroOffset.current = false;
     setSearch(
       createSearchParams({
         q: value,
@@ -35,6 +36,7 @@ const ArtistsPage = () => {
 
   const handlePageChange = useCallback(
     (page: number) => {
+      isZeroOffset.current = false;
       setSearch(
         createSearchParams({
           q: query,
@@ -62,6 +64,13 @@ const ArtistsPage = () => {
       setIsLoadingMore(false);
     }
   }, [artists, page]);
+
+  useEffect(() => {
+    isZeroOffset.current = false;
+    return () => {
+      isZeroOffset.current = true;
+    };
+  }, []);
 
   return (
     <>
